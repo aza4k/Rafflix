@@ -21,7 +21,13 @@ Ushbu qo'llanma orqali Rafflix loyihasini GitHub orqali Railway serveriga qanday
 2. **New Project** -> **Deploy from GitHub repo** tanlang.
 3. `Rafflix` repozitoriyasini tanlang.
 
-## 3-bosqich: Ma'lumotlar bazalarini qo'shish
+### 2.1. Servislarni "Split" qilish (bo'lish)
+Railway avvomat ravishda bitta repo uchun bitta servis yaratadi. Bizga esa 4 ta kerak.
+1. Dashboardda tepada **+ (Add Service)** tugmasini bosing.
+2. Yana **GitHub Repo**ni tanlang va o'sha `Rafflix` reponi tanlang.
+3. Buni jami 4 marta takrorlang (API, Bot, Worker, Beat uchun).
+
+Endi har birining **Settings** bo'limiga kirib, nomini va buyrug'ini (Start Command) o'zgartiring:
 
 Railway loyihangizga quyidagi xizmatlarni qo'shing:
 1. **Add Service** -> **Database** -> **Add PostgreSQL**.
@@ -36,7 +42,7 @@ Rafflix 4 ta asosiy servisdan tashkil topgan. Railway'da har birini alohida xizm
 ### 1. API Servis (FastAPI)
 - **Settings** -> **Public Networking**: Portni `8000` ga sozlang.
 - **Service Name**: `api` deb nomlang.
-- **Start Command**: `uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}`
+- **Start Command**: `  `
 
 ### 2. Bot Servis (Telegram Bot)
 - **Service Name**: `bot` deb nomlang.
