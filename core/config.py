@@ -4,14 +4,23 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import field_validator
 
 class Settings(BaseSettings):
-    BOT_TOKEN: str
-    WEBHOOK_URL: str
-    WEBAPP_URL: str
-    DATABASE_URL: str
+    BOT_TOKEN: str = ""
+    WEBHOOK_URL: str = ""
+    WEBAPP_URL: str = ""
+    DATABASE_URL: str = ""
     REDIS_URL: str = "redis://localhost:6379/0"
     ADMIN_IDS_STR: str = ""
-    CHANNEL_ID: int
+    CHANNEL_ID: int = 0
     BOT_USERNAME: str = "RafflixBot"
+
+    @property
+    def ASYNC_DATABASE_URL(self) -> str:
+        if not self.DATABASE_URL:
+            return ""
+        url = self.DATABASE_URL
+        if url.startswith("postgresql://"):
+            url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
+        return url
 
     @property
     def ADMIN_IDS(self) -> List[int]:
@@ -25,4 +34,4 @@ class Settings(BaseSettings):
         extra="ignore"
     )
 
-settings = Settings(_env_file=os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"))
+settings = Settings()

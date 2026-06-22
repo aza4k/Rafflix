@@ -52,17 +52,21 @@ Rafflix 4 ta asosiy servisdan tashkil topgan. Railway'da har birini alohida xizm
 
 ## 5-bosqich: Environment Variables (.env)
 
-Har bir servis uchun **Variables** bo'limiga quyidagilarni kiriting:
+Har bir servis uchun (api, bot, worker, beat) **Variables** bo'limiga quyidagilarni kiriting:
 
-| O'zgaruvchi | Tavsif |
+| O'zgaruvchi | Qiymat (Railway reference) |
 | :--- | :--- |
-| `BOT_TOKEN` | BotFather'dan olingan token |
-| `BOT_USERNAME` | Bot userneymi (masalan: RafflixBot) |
-| `ADMIN_IDS` | Sizning Telegram ID (vergul bilan) |
-| `CHANNEL_ID` | E'lonlar kanali ID (masalan: -100...) |
-| `WEBAPP_URL` | Railway bergan API servisi linki |
 | `DATABASE_URL` | `${{Postgres.DATABASE_URL}}` |
 | `REDIS_URL` | `${{Redis.REDIS_URL}}` |
+| `BOT_TOKEN` | BotFather tokeni |
+| `BOT_USERNAME` | Bot userneymi |
+| `ADMIN_IDS` | Sizning ID |
+| `CHANNEL_ID` | Kanal ID |
+| `WEBAPP_URL` | `api` servisi bergan URL |
+
+> [!IMPORTANT]
+> Railway bergan `DATABASE_URL` odatda `postgresql://` bilan boshlanadi. Bizning kodimiz esa `postgresql+asyncpg://`ni talab qiladi.
+> Men kodimizni shunday o'zgartiraman-ki, u avtomatik ravishda `+asyncpg`ni qo'shib oladi.
 
 ## 6-bosqich: Web App (Frontend)
 
