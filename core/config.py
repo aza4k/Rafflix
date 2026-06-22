@@ -16,16 +16,24 @@ class Settings(BaseSettings):
     @property
     def ASYNC_DATABASE_URL(self) -> str:
         url = self.DATABASE_URL.strip('"\' ')
-        # Debugging (hidden in production logs mostly, but helpful for user)
-        prefix = url[:15] if url else "EMPTY"
-        print(f"DATABASE_URL starts with: {prefix}...")
-        
         if not url or "${{" in url:
-            # If still has curly braces, Railway hasn't interpolated it
             return "postgresql+asyncpg://user:pass@localhost/db"
-            
+        
+        # Ensure it has exactly one +asyncpg
         if url.startswith("postgresql://"):
             url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
+        elif url.startswith("postgres://"):
+            url = url.replace("postgres://", "postgresql+asyncpg://", 1)
+            
+        return url
+
+    @property
+    def SYNC_DATABASE_URL(self) -> str:
+        url = self.DATABASE_URL.strip('"\' ')
+        if not url or "${{" in url:
+            return "postgresql://user:pass@localhost/db"
+        if url.startswith("postgres://"):
+            url = url.replace("postgres://", "postgresql://", 1)
         return url
 
     @property
