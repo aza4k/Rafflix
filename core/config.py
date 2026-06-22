@@ -15,9 +15,10 @@ class Settings(BaseSettings):
 
     @property
     def ASYNC_DATABASE_URL(self) -> str:
-        if not self.DATABASE_URL:
-            return ""
-        url = self.DATABASE_URL
+        url = self.DATABASE_URL.strip('"\' ')
+        if not url:
+            # Return a generic URL to avoid parsing errors
+            return "postgresql+asyncpg://user:pass@localhost/db"
         if url.startswith("postgresql://"):
             url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
         return url

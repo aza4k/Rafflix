@@ -25,8 +25,8 @@ class Base(DeclarativeBase):
     pass
 
 async def get_db():
-    if AsyncSessionLocal is None:
-        raise RuntimeError("DATABASE_URL is not set. Please configure it in your environment.")
+    if AsyncSessionLocal is None or not settings.DATABASE_URL:
+        raise RuntimeError("DATABASE_URL is not set or invalid. Please check your environment variables.")
     async with AsyncSessionLocal() as session:
         try:
             yield session
